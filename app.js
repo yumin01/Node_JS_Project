@@ -9,4 +9,4 @@ app.get('/', (req, res)=>{
 
 app.listen(3030, ()=> {
     console.log('server is running at 3030 port');
-});
+})

@@ -2,12 +2,12 @@
 var express = require('express')
 var router = express.Router();
 
-// 경로에 해당 Wiki Home Page 출력
+// /경로에 해당 Wiki Home Page 출력
 router.get('/', function(req , res){
     res.send('Wiki home page')
 });
 
-// about 경로에 해당 About this wiki 출력
+// /about 경로에 해당 About this wiki 출력
 router.get('/about', function(req , res){
     res.send('About this wiki')
 });
