@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
+using UnityEngine.UI;           //유니티 UI 접근
+using UnityEngine.Networking;   //유니티 Networking 사용
 using System.Text;
 
 public class RankMain : MonoBehaviour
@@ -13,15 +13,15 @@ public class RankMain : MonoBehaviour
     public string idUri;
     public string postUri;
     public string id;
-    public string pw;
+    public string pw;                       //추가
     public int score;
 
-    public string registerIDUri;
+    public string registerIDUri;            //추가
 
     public Button BtnGetTop3;
     public Button BtnGetId;
     public Button BtnPost;
-    public Button BtnRegisterID;
+    public Button BtnRegisterID;            //추가
 
     Dictionary<string, int> scoreDic = new Dictionary<string, int>();
     void Start()
@@ -37,10 +37,11 @@ public class RankMain : MonoBehaviour
             req.userid.id = id;
             req.userid.pw = pw;
 
-            var Json = JsonUtility.ToJson(req);
+            var Json = JsonUtility.ToJson(req);                         //Json 화 시켜줌 
 
-            StartCoroutine(this.PostRegister(url, Json, (raw) =>
+            StartCoroutine(this.PostRegister(url, Json ,(raw) =>            
             {
+                
                 var res = JsonUtility.FromJson<Protocols.Packets.res_registerid>(raw);
                 Debug.LogFormat("{0}, {1}", res.cmd, res.message);
 
@@ -53,11 +54,13 @@ public class RankMain : MonoBehaviour
             Debug.Log(url);
 
             StartCoroutine(this.GetId(url, (raw) =>
-            {
+            {              
+                //var res = JsonConvert.DeserializeObject<Protocols.Packets.res_scores_id>(raw);
                 var res = JsonUtility.FromJson<Protocols.Packets.res_scores_id>(raw);
                 Debug.LogFormat("{0}, {1}", res.result.id, res.result.score);
 
             }));
+
         });
 
         this.BtnGetTop3.onClick.AddListener(() =>
@@ -75,6 +78,7 @@ public class RankMain : MonoBehaviour
                 {
                     Debug.LogFormat("{0} : {1}", user.id, user.score);
                 }
+
             }));
         });
 
@@ -87,14 +91,17 @@ public class RankMain : MonoBehaviour
             req.cmd = 1000;
             req.id = id;
             req.score = score;
+            //var json = JsonConvert.SerializeObject(req);
             var json = JsonUtility.ToJson(req);
             Debug.Log(json);
 
             StartCoroutine(this.PostScore(url, json, (raw) =>
-            {
+            {              
+                //Protocols.Packets.res_scores res = JsonConvert.DeserializeObject<Protocols.Packets.res_scores>(raw);
                 Protocols.Packets.res_scores res = JsonUtility.FromJson<Protocols.Packets.res_scores_id>(raw);
                 Debug.LogFormat("{0}, {1}", res.cmd, res.message);
             }));
+
         });
     }
 
@@ -102,15 +109,16 @@ public class RankMain : MonoBehaviour
     private IEnumerator PostScore(string url, string json, System.Action<string> callback)
     {
         var webRequest = new UnityWebRequest(url, "POST");
-        var bodyRaw = Encoding.UTF8.GetBytes(json);
+        var bodyRaw = Encoding.UTF8.GetBytes(json);                         //직렬화 (문자열 -> 바이트 배열)
 
+       
         webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
 
-        yield return webRequest.SendWebRequest();
+        yield return webRequest.SendWebRequest();                           //Node.js 로 보냄
 
-        if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+        if (webRequest.result == UnityWebRequest.Result.ConnectionError ||                  //각종 네트워크 에러 사항 채킹
             webRequest.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log("네트워크 환경이 좋지 않음");
@@ -183,4 +191,7 @@ public class RankMain : MonoBehaviour
 
         webRequest.uploadHandler.Dispose();
     }
+
+
+
 }

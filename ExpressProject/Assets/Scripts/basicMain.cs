@@ -1,43 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;           // ìœ ë‹ˆí‹° UI ì ‘ê·¼
-using UnityEngine.Networking;   // ìœ ë‹ˆí‹° Nextworking ì‚¬ìš©
+using UnityEngine.UI;           //À¯´ÏÆ¼ UI Á¢±Ù
+using UnityEngine.Networking;   //À¯´ÏÆ¼ Networking »ç¿ë
 
 public class basicMain : MonoBehaviour
 {
-    public Button Hello;            // Hello ë²„íŠ¼ ì„ ì–¸
-    public string host;             // ì£¼ì†Œ ë³€ìˆ˜ ì„ ì–¸
-    public int port;                // í¬íŠ¸ ë²ˆí˜¸ ì„ ì–¸(0 ~ 25000)
+    public Button Hello;                //Hello ¹öÆ° ¼±¾ğ 
+    public string host;                 //ÁÖ¼Ò º¯¼ö ¼±¾î 
+    public int port;                    //Æ÷Æ® ¹øÈ£ ¼±¾ğ (0 ~ 25000)
 
     void Start()
     {
-        this.Hello.onClick.AddListener(()=>
+        this.Hello.onClick.AddListener(() =>
         {
-            var url = string.Format("{0}:{1}/", host, port);        // string.format í•¨ìˆ˜ë¡œ URL ìƒì„±
+            var url = string.Format("{0}:{1}/", host, port);            //string.format ÇÔ¼ö·Î URL »ı¼º
             Debug.Log(url);
-            StartCoroutine(this.GetBasic(url, (raw) =>              // ì½”ë£¨í‹´ìœ¼ë¡œ Getasic í˜¸ì¶œ í›„ì— raw íŒŒì¼ì„ ì½œë°±ì— ë„£ëŠ”ë‹¤.
+            StartCoroutine(this.GetBasic(url, (raw) =>                  //ÄÚ·çÆ¾À¸·Î GetBasic È£ÃâÈÄ¿¡ raw ÆÄÀÏÀ» Äİ¹é¿¡ ³Ö´Â´Ù. 
             {
-                Debug.LogFormat("{0}", raw);                        // ë””ë²„ê·¸ ë¡œê·¸ë¡œ raw íŒŒì¼ ì„¤ì •
+                Debug.LogFormat("{0}", raw);                            //µğ¹ö±× ·Î±×·Î raw ÆÄÀÏ ¼³Á¤
             }));
         });
     }
 
     private IEnumerator GetBasic(string url, System.Action<string> callback)
     {
-        var webRequest = UnityWebRequest.Get(url);                  // Getì— ëŒ€í•œ ì›¹ ìš”ì²­ URL í•¨ìˆ˜
-        yield return webRequest.SendWebRequest();                   // ìš”ì²­í•œ ê²ƒì´ ëŒì•„ì˜¬ ë•Œ ê¹Œì§€ ëŒ€ê¸°
+        var webRequest = UnityWebRequest.Get(url);          //Get¿¡ ´ëÇÑ À¥ ¿äÃ» URL ÇÔ¼ö 
+        yield return webRequest.SendWebRequest();           //¿äÃ»ÇÑ °ÍÀÌ µ¹¾Æ¿Ã¶§±îÁö ´ë±â 
 
-        Debug.Log("----->" + webRequest.downloadHandler.text);      // ë‹¤ìš´ë¡œë“œ í•¸ë“¤ëŸ¬ í…ìŠ¤íŠ¸ ë¡œê¹…
+        Debug.Log("----->" + webRequest.downloadHandler.text);     //´Ù¿î·Îµå ÇÚµé·¯ ÅØ½ºÆ® ·Î±ë 
 
-        if(webRequest.result == UnityWebRequest.Result.ConnectionError           // ì ‘ì† ì»¤ë„¥ì…˜ì— ë¬¸ì œê°€ ìˆì„ ë•Œ
-            || webRequest.result == UnityWebRequest.Result.ProtocolError)       // í”„ë¡œí† ì½œì— ë¬¸ì œê°€ ìˆì„ ë•Œ
+        if (webRequest.result == UnityWebRequest.Result.ConnectionError //Á¢¼Ó Ä¿³Ø¼Ç¿¡ ¹®Á¦°¡ ÀÖÀ»¶§ 
+            || webRequest.result == UnityWebRequest.Result.ProtocolError)   //ÇÁ·ÎÅäÄİ¿¡ ¹®Á¦°¡ ÀÖÀ»¶§ 
         {
-            Debug.Log("ë„¤íŠ¸ì›Œí¬ í™˜ê²½ì´ ì¢‹ì§€ ì•Šì•„ í†µì‹  ë¶ˆê°€ëŠ¥");
+            Debug.Log("³×Æ®¿öÅ© È¯°æÀÌ ÁÁÁö ¾Ê¾Æ Åë½Å ºÒ°¡´É ");
         }
         else
         {
-            callback(webRequest.downloadHandler.text);              // í†µì‹ ì´ ì„±ê³µí•˜ë©´ ì½œë°± í•¨ìˆ˜ë¡œ ì „ë‹¬
+            callback(webRequest.downloadHandler.text);          //Åë½ÅÀÌ ¼º°øÇÏ¸é Äİ¹é ÇÔ¼ö·Î Àü´Ş 
         }
     }
 }

@@ -1,4 +1,4 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +10,7 @@ public class SceneManager : MonoBehaviour
     {
         get
         {
-            if (instance == null)
+            if(instance == null)
             {
                 instance = FindObjectOfType<SceneManager>();
             }
@@ -23,14 +23,14 @@ public class SceneManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);          //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾îµµ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½. 
+        DontDestroyOnLoad(gameObject);          //¾ÀÀÌ º¯°æµÇ¾îµµ À¯ÁöÇÏ°Ô ÇÑ´Ù. 
 
-        if (FindObjectsOfType<SceneManager>().Length > 1)
+        if(FindObjectsOfType<SceneManager>().Length > 1)
         {
             Destroy(gameObject);
         }
 
-        if (currentSceneName == null)
+        if(currentSceneName == null)
         {
             currentSceneName = "Login";
         }
@@ -68,7 +68,7 @@ public class SceneManager : MonoBehaviour
     public void RegisterScene(string sceneName)
     {
         currentSceneName = sceneName;
-        if (!sceneDictionary.ContainsKey(sceneName)) //ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ Key ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
+        if(!sceneDictionary.ContainsKey(sceneName)) //µñ¼Å³Ê¸®¿¡ Key °ªÀÌ ÀÖ´ÂÁö °Ë»ç
         {
             BaseScene tempScene = GetSceneClass(sceneName);
             tempScene.sceneName = sceneName;
@@ -78,9 +78,9 @@ public class SceneManager : MonoBehaviour
 
     public BaseScene GetScene(string sceneName)
     {
-        if (sceneDictionary.ContainsKey(sceneName)) //ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ Key ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
+        if(sceneDictionary.ContainsKey(sceneName)) //µñ¼Å³Ê¸®¿¡ Key °ªÀÌ ÀÖ´ÂÁö °Ë»ç
         {
-            return sceneDictionary[sceneName];      //ï¿½ï¿½Å³Ê¸ï¿½ Key ï¿½è¿­Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
+            return sceneDictionary[sceneName];      //µñ¼Å³Ê¸® Key ¹è¿­Ã³·³ °¡Àú¿Â´Ù.
         }
         return null;
     }

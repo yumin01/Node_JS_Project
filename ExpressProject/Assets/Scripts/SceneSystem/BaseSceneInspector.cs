@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(BaseScene), true)]             // 자식 클래스에도 적용하기 위해서 사
-
-public class BaseSceneInspector : Editor            //에디터를 상
+[CustomEditor(typeof(BaseScene), true)]         //자식 클래스에도 적용 하기 위해서 사용
+public class BaseSceneInspector : Editor                //에디터를 상속
 {
     BaseScene _editor;
 
@@ -14,7 +13,7 @@ public class BaseSceneInspector : Editor            //에디터를 상
         _editor = target as BaseScene;
     }
 
-    public override void OnInspectorGUI()           //실제 구현 
+    public override void OnInspectorGUI()       //실제 구현 부
     {
         _editor.sceneIndex = EditorGUILayout.Popup(_editor.sceneIndex, new string[] { "데이터 0", "데이터 1" });
         _editor.sceneDataShow = EditorGUILayout.Toggle(new GUIContent("데이터 보기"), _editor.sceneDataShow);
@@ -30,8 +29,9 @@ public class BaseSceneInspector : Editor            //에디터를 상
                 break;
 
             case 1:
-                _editor.sceneData1 = EditorGUILayout.TextField(new GUIContent("데이터 1"), _editor.sceneData1);
+                _editor.sceneData1 = EditorGUILayout.TextField(new GUIContent("데이터1"), _editor.sceneData1);
                 break;
+
         }
     }
 }
